@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<style>
+table {
+    width: 30%;
+
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+}
+</style>
+</head>
+
+
+<h1>My favourite movies</h1>
+
+<table>
+    <tr>
+      <th>Name</th>
+      <th>Rating</th>
+      <th>Description</th>
+    </tr>
+    
+    <% movies.map((movie, index) => { %>
+        <tr>
+            <td><a href=<%= movie.url %> id ="movie-<%= index %>"> <%= movie.name %></a></td>
+            <td><%= movie.rating %> stars</td>
+            <td><%= movie.description %></td>
+            <td>
+                <form action = '/<%= movie.movie_id%>?_method=DELETE' method='post'>
+                    <input type='submit' value='delete'>
+                </form>
+            </td>
+            <td>
+                <form action = '/update' method='get'>
+                    <input type='submit' value='update'>
+                </form>
+            </td>
+        </tr>
+    <% }) %>
+</table>
+
+<br><br><br>
+<form action='/' method='post'>
+    <input type='text' name='new_movie_name' placeholder="Enter another movie..." >
+    <input type='text' name='new_movie_rating' placeholder="Enter a number of stars..." >
+    <input type='text' name='new_movie_url' placeholder="Enter the imdb url..." >
+    <input type='text' name='new_movie_description' placeholder="Enter a description..." >
+    <button type='submit'>Add</button>
+</form>
+
