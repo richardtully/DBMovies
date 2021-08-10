@@ -1,5 +1,6 @@
 require('dotenv').config()
-const { MovieTable } = require('./models').models
+const { movietable } = require('./models')
+const { Comments } = require('./models')
 const express = require('express')
 const methodOverride = require('method-override')
 const app = express()
@@ -13,14 +14,16 @@ app.use(methodOverride('_method'))
 
 
 app.get('/', async (req,res) => {
-    const movies = await MovieTable.findAll({})
+    const movies = await movietable.findAll({})
+    const comment = await Comments.findAll({})
     res.render('app.ejs', {
-        movies: movies
+        movies: movies,
+        comments: comment
     })
 })
 
 app.post('/', async (req,res)=> {
-    await MovieTable.create({
+    await movietable.create({
         name: req.body.new_movie_name,
         rating: req.body.new_movie_rating,
         url: req.body.new_movie_url,
@@ -29,33 +32,41 @@ app.post('/', async (req,res)=> {
     res.redirect('/')
 })
 
-app.delete('/:movie_id', async(req,res) => {
-    await MovieTable.destroy({
-        where: {movie_id: req.params.movie_id}
+app.delete('/:id', async(req,res) => {
+    await movietable.destroy({
+        where: {id: req.params.id}
     })
     res.redirect('/')
 })
 
-app.get('/update/:movie_id', async(req,res) => {
-    const currentMovie = await MovieTable.findOne({
-        where: {movie_id: req.params.movie_id}
+app.get('/update/:id', async(req,res) => {
+    const currentMovie = await movietable.findOne({
+        where: {id: req.params.id}
     })
     res.render('update.ejs',{
         currentMovie: currentMovie
     })
 })
 
-app.put('/update/:movie_id', async(req,res) => {
+app.put('/update/:id', async(req,res) => {
     console.log(req.body.name)
-    await MovieTable.update({
+    await movietable.update({
         name: req.body.new_movie_name,
         url: req.body.new_movie_url,
         rating: req.body.new_movie_rating,
         description: req.body.new_movie_description
     },{
-        where: {movie_id: req.params.movie_id}
+        where: {id: req.params.id}
     })
 
+    res.redirect('/')
+})
+
+app.post('/comment/:id', async(req, res) => {
+    await Comments.create({
+        text: req.body.comment,
+        movietableId: req.params.id
+    })
     res.redirect('/')
 })
 

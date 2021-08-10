@@ -1,7 +1,7 @@
 <h1>Update <%= currentMovie.name%> </h1>
 <br><br><br>
 
-<form action='/update/<%= currentMovie.movie_id%>?_method=PUT' method='post'>
+<form action='/update/<%= currentMovie.id%>?_method=PUT' method='post'>
     <input type='text' name='new_movie_name' placeholder="<%= currentMovie.name%>" >
     <input type='text' name='new_movie_rating' placeholder="<%= currentMovie.rating%>" >
     <input type='text' name='new_movie_url' placeholder="<%= currentMovie.url%>" >

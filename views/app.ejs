@@ -30,14 +30,25 @@ td, th {
             <td><a href=<%= movie.url %> id ="movie-<%= index %>"> <%= movie.name %></a></td>
             <td><%= movie.rating %> stars</td>
             <td><%= movie.description %></td>
-            <td><%= movie.comments %></td>
             <td>
-                <form action = '/<%= movie.movie_id%>?_method=DELETE ' method='post'>
+            <% comments.filter(comment => comment.movietableId === movie.id).map(comments => { %>
+                <p> <%= comments.text %> </p>
+            <% })%>
+            <br>
+            <form action = '/comment/<%= movie.id %>' method='post'>
+                <input type="text" placeholder="Add a comment here" name="comment">
+                <input type='submit' value='comment'>
+            </form>
+            </td>
+            <% console.log(comments.filter(comment => comment.movietableId === movie.id)) %> 
+            <% console.log('hello') %>
+            <td>
+                <form action = '/<%= movie.id%>?_method=DELETE ' method='post'>
                     <input type='submit' value='delete'>
                 </form>
             </td>
             <td>
-                <form action = ' /update/<%= movie.movie_id %>' method='get'>
+                <form action = ' /update/<%= movie.id %>' method='get'>
                     <input type='submit' value='update' >
                 </form>
             </td>

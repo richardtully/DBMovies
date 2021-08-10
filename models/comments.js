@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class movietable extends Model {
+  class Comments extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,17 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.Comments = this.hasMany(models.Comments, { onDelete: 'CASCADE', hooks: true})
+      this.movietable = this.belongsTo(models.movietable, { foreignKeyConstraint: true, onDelete: 'CASCADE'})
     }
   };
-  movietable.init({
-    name: DataTypes.STRING,
-    url: DataTypes.STRING,
-    rating: DataTypes.INTEGER,
-    description: DataTypes.STRING
+  Comments.init({
+    text: DataTypes.STRING,
+    movietableId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'movietable',
+    modelName: 'Comments',
   });
-  return movietable;
+  return Comments;
 };
