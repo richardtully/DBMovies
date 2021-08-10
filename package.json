@@ -15,7 +15,8 @@
   "devDependencies": {
     "cypress": "^8.2.0",
     "jasmine": "^3.8.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "sequelize-cli": "^6.2.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

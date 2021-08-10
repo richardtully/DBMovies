@@ -22,6 +22,7 @@ td, th {
       <th>Name</th>
       <th>Rating</th>
       <th>Description</th>
+      <th>Comments</th>
     </tr>
     
     <% movies.map((movie, index) => { %>
@@ -29,14 +30,15 @@ td, th {
             <td><a href=<%= movie.url %> id ="movie-<%= index %>"> <%= movie.name %></a></td>
             <td><%= movie.rating %> stars</td>
             <td><%= movie.description %></td>
+            <td><%= movie.comments %></td>
             <td>
-                <form action = '/<%= movie.movie_id%>?_method=DELETE' method='post'>
+                <form action = '/<%= movie.movie_id%>?_method=DELETE ' method='post'>
                     <input type='submit' value='delete'>
                 </form>
             </td>
             <td>
-                <form action = '/update' method='get'>
-                    <input type='submit' value='update'>
+                <form action = ' /update/<%= movie.movie_id %>' method='get'>
+                    <input type='submit' value='update' >
                 </form>
             </td>
         </tr>

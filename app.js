@@ -36,10 +36,28 @@ app.delete('/:movie_id', async(req,res) => {
     res.redirect('/')
 })
 
-app.get('/update', async(req,res) => {
-    res.render('update.ejs')
+app.get('/update/:movie_id', async(req,res) => {
+    const currentMovie = await MovieTable.findOne({
+        where: {movie_id: req.params.movie_id}
+    })
+    res.render('update.ejs',{
+        currentMovie: currentMovie
+    })
 })
 
+app.put('/update/:movie_id', async(req,res) => {
+    console.log(req.body.name)
+    await MovieTable.update({
+        name: req.body.new_movie_name,
+        url: req.body.new_movie_url,
+        rating: req.body.new_movie_rating,
+        description: req.body.new_movie_description
+    },{
+        where: {movie_id: req.params.movie_id}
+    })
+
+    res.redirect('/')
+})
 
 app.listen(port,()=>{
     console.log(`Movies listening at ${port}`)
