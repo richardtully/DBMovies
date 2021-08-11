@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.Comments = this.hasMany(models.Comments, { onDelete: 'CASCADE', hooks: true})
+      this.Comments = this.hasMany(models.Comments, { onDelete: 'cascade'})
     }
   };
   movietable.init({

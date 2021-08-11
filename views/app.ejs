@@ -40,8 +40,6 @@ td, th {
                 <input type='submit' value='comment'>
             </form>
             </td>
-            <% console.log(comments.filter(comment => comment.movietableId === movie.id)) %> 
-            <% console.log('hello') %>
             <td>
                 <form action = '/<%= movie.id%>?_method=DELETE ' method='post'>
                     <input type='submit' value='delete'>

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.movietable = this.belongsTo(models.movietable, { foreignKeyConstraint: true, onDelete: 'CASCADE'})
+      this.movietable = this.belongsTo(models.movietable)
     }
   };
   Comments.init({
