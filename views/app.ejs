@@ -23,6 +23,8 @@ td, th {
       <th>Rating</th>
       <th>Description</th>
       <th>Comments</th>
+      <th>Tags</th>
+
     </tr>
     
     <% movies.map((movie, index) => { %>
@@ -40,6 +42,18 @@ td, th {
                 <input type='submit' value='comment'>
             </form>
             </td>
+
+            <td>
+                <% tags.filter(tag => tag.movietableId === movie.id).map(tags => { %>
+                    <p> <%= tags.text %> </p>
+                <% })%>
+                <br>
+                <form action = '/tag/<%= movie.id %>' method='post'>
+                    <input type="text" placeholder="Add a tag here" name="tag">
+                    <input type='submit' value='tag'>
+                </form>
+            </td>
+
             <td>
                 <form action = '/<%= movie.id%>?_method=DELETE ' method='post'>
                     <input type='submit' value='delete'>

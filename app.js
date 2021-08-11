@@ -1,6 +1,7 @@
 require('dotenv').config()
 const { movietable } = require('./models')
 const { Comments } = require('./models')
+const { tags } = require('./models')
 const express = require('express')
 const methodOverride = require('method-override')
 const app = express()
@@ -16,9 +17,11 @@ app.use(methodOverride('_method'))
 app.get('/', async (req,res) => {
     const movies = await movietable.findAll({})
     const comment = await Comments.findAll({})
+    const tag = await tags.findAll({})
     res.render('app.ejs', {
         movies: movies,
-        comments: comment
+        comments: comment,
+        tags: tag
     })
 })
 
