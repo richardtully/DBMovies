@@ -17,6 +17,12 @@ td, th {
 
 <h1>My favourite movies</h1>
 
+<form action="/tagSearch" method="POST">
+    <input type="Search" placeholder="Enter tag search" name="tagsearch">
+    <input type="submit" placeholder="submit search"> 
+</form> 
+
+
 <table>
     <tr>
       <th>Name</th>
@@ -33,26 +39,33 @@ td, th {
             <td><%= movie.rating %> stars</td>
             <td><%= movie.description %></td>
             <td>
-            <% comments.filter(comment => comment.movietableId === movie.id).map(comments => { %>
-                <p> <%= comments.text %> </p>
-            <% })%>
-            <br>
-            <form action = '/comment/<%= movie.id %>' method='post'>
-                <input type="text" placeholder="Add a comment here" name="comment">
-                <input type='submit' value='comment'>
-            </form>
-            </td>
+                <ul>
+                    <% movie.Comments.map(comment => { %>
+                    <li>
+                        <%= comment.text %>
+                    </li>
+                    <%})%>
 
+                </ul>
+                <form action = '/comment/<%= movie.id %>' method='post'>
+                    <input type="text" placeholder="Add a comment here" name="comment">
+                    <input type='submit' value='comment'>
+                </form>
+                
+            </td>
             <td>
-                <% tags.filter(tag => tag.movietableId === movie.id).map(tags => { %>
-                    <p> <%= tags.text %> </p>
+                <% movie.tags.map(tag => { %>
+                    <p> <%= tag.name %> </p>
                 <% })%>
                 <br>
                 <form action = '/tag/<%= movie.id %>' method='post'>
                     <input type="text" placeholder="Add a tag here" name="tag">
-                    <input type='submit' value='tag'>
+                    <input type='submit' value='Add tag'>
                 </form>
-            </td>
+                </td>
+
+            
+
 
             <td>
                 <form action = '/<%= movie.id%>?_method=DELETE ' method='post'>

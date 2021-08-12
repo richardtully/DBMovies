@@ -2,6 +2,8 @@ require('dotenv').config()
 const { movietable } = require('./models')
 const { Comments } = require('./models')
 const { tags } = require('./models')
+const { movietabletags } = require('./models')
+
 const express = require('express')
 const methodOverride = require('method-override')
 const app = express()
@@ -15,13 +17,24 @@ app.use(methodOverride('_method'))
 
 
 app.get('/', async (req,res) => {
-    const movies = await movietable.findAll({})
-    const comment = await Comments.findAll({})
-    const tag = await tags.findAll({})
+    const Movies = await movietable.findAll({
+        include : {
+            all:true
+        }
+        
+        // include: [ 
+        //     {model: Comments, attributes: ['text'] }, 
+        //     {model: tags, attributes: ['name']} 
+        // ]
+    })
+    
+    // console.log('comments')
+    // console.log(Movies["Comments"])
+    // console.log('tags')
+    // // Movies.tags.forEach(i => console.log(i))
+    
     res.render('app.ejs', {
-        movies: movies,
-        comments: comment,
-        tags: tag
+        movies: Movies,
     })
 })
 
@@ -52,7 +65,6 @@ app.get('/update/:id', async(req,res) => {
 })
 
 app.put('/update/:id', async(req,res) => {
-    console.log(req.body.name)
     await movietable.update({
         name: req.body.new_movie_name,
         url: req.body.new_movie_url,
@@ -71,6 +83,61 @@ app.post('/comment/:id', async(req, res) => {
         movietableId: req.params.id
     })
     res.redirect('/')
+})
+
+app.post('/tag/:id', async(req, res) => {
+    let tag = await tags.findOne({
+        where : { 
+            name : req.body.tag
+        }
+    })
+    if( !(tag) ) {
+         tag = await tags.create({
+            name: req.body.tag,
+        })
+    }
+    await movietabletags.create({
+        movietableId : req.params.id,
+        tagId  : tag.id
+    })
+
+    res.redirect('/')
+})
+
+app.post("/tagsearch" , async (req,res) => {
+    // special methods/mixins ???
+    const Movie = movietabletags.findAll({
+        include: [{
+          model: movietabletags,
+          as: 'tagsId',
+          include: [{
+            model:  tags,
+            where: {
+              name: req.body.tagsearch
+            },
+            required: false
+          }]
+        }]
+      })
+      console.log(Movie)
+
+    // const movieSearch = await movietabletags.findAll({
+    //     where : {
+    //         tagId : req.body.tagsearch
+    //     }
+    // })
+
+    // const Movies = await movietable.findAll({
+    //     where : { 
+
+    //     },
+    //     include : {
+    //         all:true
+    //     }
+    // })
+        res.render('app.ejs', {
+            movies:Movie
+        })
 })
 
 app.listen(port,()=>{

@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.Comments = this.hasMany(models.Comments, { onDelete: 'cascade'})
-      this.tags = this.belongsToMany(models.tags, { through: 'models.movietabletags'})
+      this.movietable = this.belongsToMany(models.tags, { through: models.movietabletags})
     }
   };
   movietable.init({

@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   movietabletags.init({
-    movietableid: DataTypes.INTEGER,
-    tagsid: DataTypes.INTEGER
+    movietableId: DataTypes.INTEGER,
+    tagId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'movietabletags',

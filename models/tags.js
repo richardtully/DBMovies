@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.movietable = this.belongsToMany(models.movietable, { through: 'models.movietabletags'})
+      this.tags = this.belongsToMany(models.movietable, { through: models.movietabletags})
     }
   };
   tags.init({
